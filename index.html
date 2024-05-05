@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#000000">
+<meta name="msapplication-navbutton-color" content="#000000">
+<meta name="apple-mobile-web-app-title" content="HTML">
+<meta name="application-name" content="HTML">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="msapplication-TileImage" content="icon.png">
+<meta name="msapplication-config" content="browserconfig.xml">
+<meta name="description" content="HTML">
+<title>HTML</title>
+<link rel='manifest' href='manifest.json'>
+<link rel="stylesheet" href="style.css">
+
+<link rel="apple-touch-icon" sizes="180x180" href="icon.png">
+<link rel="icon" type="image/png" sizes="any" href="icon.png">
+
+</head>
+
+<body id="root">
+<iframe id="display" srcdoc=""></iframe>
+<textarea id="code"></textarea>
+
+<style>
+ * {
+    font-family: inherit;
+    word-wrap: break-word;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    color: inherit;
+    line-height: inherit;
+    transition: all 1s ease;
+  }
+
+  #code {
+    width: 80%;
+    font-family: monospace;
+    font-size: small;
+    padding: 0.6em;
+  }
+
+  iframe {
+    width: 100vw;
+    height: 100vh;
+    border: none;
+  }
+</style>
+
+<script>
+  const body = document.getElementById('root');
+  const iframe = document.getElementById('display');
+  const code = document.getElementById('code');
+
+  function toggleCode() {
+    code.style.height = code.style.height === '' ? '1000px' : '';
+  }
+
+  function setLocal(name,value ) {
+    localStorage.setItem(name, JSON.stringify(value));
+  }
+
+  function getLocal(name) {
+    return JSON.parse(localStorage.getItem(name));
+  }
+
+  code.addEventListener('focus', () => {
+    console.log(code)
+    toggleCode();
+  });
+
+  code.addEventListener('input', () => {
+    setLocal('code', code.value);
+    iframe.srcdoc = getLocal('code');
+  });
+
+  window.addEventListener('load', () => {
+    code.value = getLocal('code') || '';
+    iframe.srcdoc = code.value;
+  });
+</script>
+<script src="script.js"></script>
+
+</body>
+
+</html>
